@@ -1,69 +1,69 @@
 #include "merge-sort.h"
 #include <string.h>
 
-void merge_sort_doubles(size_t start, size_t end, double array[end-start]) { 
+void merge_sort_doubles(size_t start, size_t end, double A[]) { 
     if(start == end) return;
 
     size_t mid = (start + end) / 2;
-    merge_sort_doubles(start, mid, array);
-    merge_sort_doubles(mid+1, end, array);
+    merge_sort_doubles(start, mid, A);
+    merge_sort_doubles(mid+1, end, A);
     
-    size_t left_length = (mid-start)+1;
-    size_t right_length = (end-mid);
+    size_t Llen = (mid-start)+1;
+    size_t Rlen = (end-mid);
 
-    double left[left_length];
-    double right[right_length];
+    double L[Llen];
+    double R[Rlen];
 
-    for (size_t i = 0; i < left_length; i++) left[i] = array[start+i];
-    for (size_t i = 0; i < right_length; i++) right[i] = array[mid+1+i];
+    for (size_t i = 0; i < Llen; i++) L[i] = A[start+i];
+    for (size_t i = 0; i < Rlen; i++) R[i] = A[mid+1+i];
     
-    size_t left_index = 0;
-    size_t right_index = 0;
+    size_t Li = 0;
+    size_t Ri = 0;
     size_t i = start;
 
-    while (left_index < left_length && right_index < right_length) {
-        if (left[left_index] <= right[right_index]) {
-            array[i++] = left[left_index++];
+    while (Li < Llen && Ri < Rlen) {
+        if (L[Li] <= R[Ri]) {
+            A[i++] = L[Li++];
         } else {
-            array[i++] = right[right_index++];
+            A[i++] = R[Ri++];
         }
     }
 
-    while (left_index < left_length) array[i++] = left[left_index++];
-    while (right_index < right_length) array[i++] = right[right_index++];
+    while (Li < Llen) A[i++] = L[Li++];
+    while (Ri < Rlen) A[i++] = R[Ri++];
 }
 
-void merge_sort_strings(size_t start, size_t end, size_t str_length, char array[end-start][str_length]) {
+void merge_sort_strings(size_t start, size_t end, size_t buflen, char A[][buflen]) {
     if (start == end) return;
 
     size_t mid = (start+end)/2;
 
-    merge_sort_strings(start, mid, str_length, array);
-    merge_sort_strings(mid+1, end, str_length, array);
+    merge_sort_strings(start, mid, buflen, A);
+    merge_sort_strings(mid+1, end, buflen, A);
     
-    size_t left_length = (mid-start)+1;
-    size_t right_length = (end-mid);
+    size_t Llen = (mid-start)+1;
+    size_t Rlen = (end-mid);
 
-    char left[left_length][str_length];
-    char right[right_length][str_length];
+    char L[Llen][buflen];
+    char R[Rlen][buflen];
     
-    for (size_t i = 0; i < left_length; i++) strcpy(left[i], array[start+i]);
-    for (size_t i = 0; i < right_length; i++) strcpy(right[i], array[mid+1+i]);
+    for (size_t i = 0; i < Llen; i++) strcpy(L[i], A[start+i]);
+    for (size_t i = 0; i < Rlen; i++) strcpy(R[i], A[mid+1+i]);
 
-    size_t left_index = 0;
-    size_t right_index = 0;
+    size_t Li = 0;
+    size_t Ri = 0;
     size_t i = start;
 
-    while (left_index < left_length && right_index < right_length) {
-        if (strcmp(left[left_index], right[right_index]) < 1) {
-            strcpy(array[i++], left[left_index++]);
+    while (Li < Llen && Ri < Rlen) {
+        if (strcmp(L[Li], R[Ri]) < 1) {
+            strcpy(A[i++], L[Li++]);
         } else {
-            strcpy(array[i++], right[right_index++]);
+            strcpy(A[i++], R[Ri++]);
         }
     }
 
-    while (left_index < left_length) strcpy(array[i++], left[left_index++]);
-    while (right_index < right_length) strcpy(array[i++], right[right_index++]);
+    while (Li < Llen) strcpy(A[i++], L[Li++]);
+    while (Ri < Rlen) strcpy(A[i++], R[Ri++]);
 }
 
 

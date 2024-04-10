@@ -25,46 +25,46 @@
  *
  */
 int main(void) {
-    test_merge_sort_doubles(50);
-    // test_merge_sort_strings(50, 32); // TODO: segfaulting
-    test_quick_sort_doubles(50);
-    // test_quick_sort_strings(50, 32); // TODO: segfaulting
+//    test_merge_sort_doubles(50);
+    test_merge_sort_strings(50, 32);
+//    test_quick_sort_doubles(50);
+    test_quick_sort_strings(50, 32); // TODO: segfaulting
 }
 
-int test_merge_sort_doubles(size_t length) {
-    double array[length];
-    printf("conducting merge sort test on %zu doubles: ", length);
-    generate_doubles(length, array);
-    merge_sort_doubles(0, length-1, array);
+int test_merge_sort_doubles(size_t len) {
+    double A[len];
+    printf("conducting merge sort test on %zu doubles: ", len);
+    generate_doubles(len, A);
+    merge_sort_doubles(0, len-1, A);
     
-    return check_sorted_doubles(length, array); 
+    return check_sorted_doubles(len, A); 
 }
 
-int test_merge_sort_strings(size_t length, size_t str_length) { 
-    char strs[length][str_length];
-    printf("conducting merge sort test on %zu strings: ", length);
-    generate_strings(length, str_length, strs);
-    merge_sort_strings(0, length-1, str_length, strs);
+int test_merge_sort_strings(size_t len, size_t buflen) { 
+    char A[len][buflen];
+    printf("conducting merge sort test on %zu strings: ", len);
+    generate_strings(len, buflen, A);
+    merge_sort_strings(0, len-1, buflen, A);
 
-    return check_sorted_strings(length, str_length, strs);
+    return check_sorted_strings(len, buflen, A);
 }
 
-int test_quick_sort_doubles(size_t length) {
-    double array[length];
-    printf("conducting quick sort test on %zu doubles: ", length);
-    generate_doubles(length, array);
-    quick_sort_doubles(0, length-1, array);
+int test_quick_sort_doubles(size_t len) {
+    double A[len];
+    printf("conducting quick sort test on %zu doubles: ", len);
+    generate_doubles(len, A);
+    quick_sort_doubles(0, len-1, A);
 
-    return check_sorted_doubles(length, array);
+    return check_sorted_doubles(len, A);
 }
 
-int test_quick_sort_strings(size_t length, size_t str_length) {
-    char strs[length][str_length];
-    printf("conducting quick sort test on %zu strings: ", length);
-    generate_strings(length, str_length, strs);
-    quick_sort_strings(0, length-1, str_length, strs);
+int test_quick_sort_strings(size_t len, size_t buflen) {
+    char A[len][buflen];
+    printf("conducting quick sort test on %zu strings: ", len);
+    generate_strings(len, buflen, A);
+    quick_sort_strings(0, len-1, buflen, A);
 
-    return check_sorted_strings(length, str_length, strs);
+    return check_sorted_strings(len, buflen, A);
 }
 
 

@@ -5,35 +5,35 @@
 #include <stdlib.h>
 #include <string.h>
 
-void quick_sort_doubles(int start, int end, double a[end-start+1]) {
-    if (end - start <= 0) return;
-    swap_doubles((end+start)/2, end, end-start+1, a);
-    int left = start-1;
-    int right = end;
+void quick_sort_doubles(size_t low, size_t high, double A[]) {
+    if ((signed)(high-low) <= 0) return;
+    swap_doubles((high+low)/2, high, A);
+    size_t L = low-1;
+    size_t R = high;
     while (1) {
-        while (a[++left] <= a[end] && left < end);
-        while (a[--right] > a[end] && left < right && right >= start);
-        if (left >= right) break; 
-        swap_doubles(left, right, end-start+1, a);
+        while (A[++L] <= A[high] && L < high);
+        while (A[--R] > A[high] && L < R && R >= low);
+        if (L >= R) break; 
+        swap_doubles(L, R, A);
     }
-    swap_doubles(left, end, end-start+1, a);
-    quick_sort_doubles(start, left-1, a);
-    quick_sort_doubles(left+1, end, a);
+    swap_doubles(L, high, A);
+    quick_sort_doubles(low, L-1, A);
+    quick_sort_doubles(L+1, high, A);
 }
 
-void quick_sort_strings(int start, int end, size_t str_length, char a[end-start+1][str_length]) {
-    if (end-start <= 0) return;
-    swap_strings((end+start)/2, end, end-start+1, str_length, a);
-    int left = start-1;
-    int right = end;
+void quick_sort_strings(size_t low, size_t high, size_t buflen, char A[][buflen]) {
+    if ((signed)(high-low) <= 0) return;
+    swap_strings((high+low)/2, high, buflen, A);
+    size_t L = low-1;
+    size_t R = high;
     while (1) {
-        while (strcmp(a[++left], a[end]) < 0 && left < end);
-        while (strcmp(a[--right], a[end]) > 0 && left < right && right >= start);
-        if (left >= right) break; 
-        swap_strings(left, right, end-start+1, str_length, a);
+        while (strcmp(A[++L], A[high]) <= 0 && L < high);
+        while (strcmp(A[--R], A[high]) > 0 && L < R && R >= low);
+        if (L >= R) break; 
+        swap_strings(L, R, buflen, A);
     }
-    swap_strings(left, end, end-start+1, str_length, a);
-    quick_sort_strings(start, left-1, str_length, a);
-    quick_sort_strings(left+1, end, str_length, a);
+    swap_strings(L, high, buflen, A);
+    quick_sort_strings(low, L-1, buflen, A);
+    quick_sort_strings(L+1, high, buflen, A);
 }
 
