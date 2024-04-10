@@ -22,7 +22,7 @@ void quick_sort_doubles(size_t low, size_t high, double A[]) {
 }
 
 void quick_sort_strings(size_t low, size_t high, size_t buflen, char A[][buflen]) {
-    if ((signed)(high-low) <= 0) return;
+    if ((((signed)high-(signed)low)) <= 0) return;
     swap_strings((high+low)/2, high, buflen, A);
     size_t L = low-1;
     size_t R = high;
