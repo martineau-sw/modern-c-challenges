@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <assert.h>
 
 typedef double vector2[2];
@@ -41,6 +42,72 @@ void print_matrix(char label[], size_t rows, size_t cols, double M[][cols]) {
         if(i < rows) printf("\n");
     }
     
+}
+
+void swap_rows(size_t i, size_t j, size_t len, double M[len][len+1]) {
+    for (size_t k = 0; k <= len; k++) {
+        double temp = M[i][k];
+        M[i][k] = M[j][k];
+        M[j][k] = temp;
+    }
+}
+
+signed forward_elimination(size_t len, double M[len][len+1]) {
+    for (size_t k = 0; k < len; k++) {
+        size_t max_index = k;
+        double max_value = M[max_index][k];
+
+        for (size_t i = k+1; i < len; i++) { 
+            if (fabs(M[i][k]) > max_value) {
+                max_value = M[i][k];
+                max_index = i;
+            }
+        }
+
+        if (!M[k][max_index]) return k;
+
+        if (max_index != k) swap_rows(max_index, k, len, M);
+
+        for (size_t i = k+1; i < len; i++) {
+            double factor = M[i][k]/M[k][k];
+
+            for (size_t j = k+1; j <= len; j++) M[i][j] -= M[k][j]*factor;
+
+            M[i][k] = 0;
+        }
+    }
+
+    return -1;
+
+}
+
+void back_substitution(size_t len, double M[len][len+1], double result[len]) {
+    for (signed i = len-1; i >= 0; i--) {
+        result[i] = M[i][len];
+
+        for (size_t j = i+1; j < len; j++) {
+            result[i] -= M[i][j]*result[j];
+        }
+
+        result[i] = result[i]/M[i][i];
+    }
+
+}
+
+void gaussian_elimination(size_t len, double M[len][len+1], double result[len]) {
+    signed singular_flag = forward_elimination(len, M); 
+
+    if (singular_flag != -1) {
+        if (M[singular_flag][len]) {
+            printf("Inconsistent system");
+        } else {
+            printf("May have infinitely many solutions");
+        }
+
+        return;
+    }
+
+    back_substitution(len, M, result);
 }
 
 // available in three dimensions since only one valid
@@ -73,6 +140,7 @@ void matrix_vector_product(size_t rows, size_t cols, double M[rows][cols], size_
 }
 
 int main(void) {
+    /*
     matrix33 M = {
         [0][0] = 1, [0][1] = 1, [0][2] = 1,
         [1][0] = 1, [1][1] = 1, [1][2] = 1,
@@ -101,5 +169,16 @@ int main(void) {
     cross(V, V0, result);
     print_vector("cross", 3, result);
     printf("dot result: %f\n", dot(3, V0, V));
+    */
+    double M[3][4] = {
+        { 3.0,  2.0, -4.0, 3.0, },
+        { 2.0,  3.0,  3.0, 15.0,},
+        { 5.0, -3.0,  1.0, 14.0,},
+    };
+
+    double result[3] = { 0 };
+
+    gaussian_elimination(3, M, result);
+    print_vector("solution", 3, result);
     return EXIT_SUCCESS;
 }
