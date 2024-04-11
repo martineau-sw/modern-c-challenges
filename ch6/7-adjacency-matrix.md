@@ -20,3 +20,4 @@ for me. Hats off to you, Gustedt. Now I *have* to learn something.
 
 # Sources
 - Modern C, Jens Gustedt
+- [BFS on graphs](https://web.archive.org/web/20150326055019/http://www.graph500.org/specifications#sec-6)
