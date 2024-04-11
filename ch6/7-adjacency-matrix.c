@@ -39,7 +39,7 @@ void compress(queue* Q) {
 
 signed is_empty(queue Q) {
     if (Q.A[Q.first] == SIZE_MAX) return 1;
-    return true;
+    return 0;
 }
 
 void print_matrix(char label[], size_t len, matrix4x4_b M) {
@@ -54,13 +54,27 @@ void print_matrix(char label[], size_t len, matrix4x4_b M) {
     
 }
 
-void breadth_first_search(size_t start, size_t key, size_t len, matrix4x4_b M) {
+size_t breadth_first_search(size_t start, size_t key, size_t len, matrix4x4_b M) {
     queue Q;
     size_t A[UCHAR_MAX] = { SIZE_MAX };
     memcpy(Q.A, A, UCHAR_MAX);
     bool explored[len];
-
+    
+    explored[start] = true;
     enqueue(start, &Q); 
+
+    while (!is_empty(Q)) {
+        size_t value = dequeue(&Q);
+        if (value == key) return value;
+        for (size_t i = 0; i < len; i++) {
+            if (M[value][i] == 1 && !explored[i]) {
+                explored[i] = true;
+                enqueue(i, &Q);
+            }
+        }
+    }
+
+    return SIZE_MAX;
 }
 
 int main(void) {
