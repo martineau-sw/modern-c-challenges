@@ -26,7 +26,14 @@ was able to implement a queue struct that wraps an array that is arbitrarily
 large and tracks the first and last indicies of the window in which the queue
 contains its elements. From there, I introduced queue functions. Knowing that
 `struct`s are passed by value unlike arrays, I decided to utilize parameterized
-pointers, despite not covering their use in the text yet. 
+pointers, despite not covering their use in the text yet.
+
+After translating the pseudocode from wikipedia, I asked a friend to check my
+work thus far to ensure I'm not making any catastrophic mistakes. This they did
+no problem, additionally, they also advised that I instead use a circular
+structure for the array queue so I don't have to worry much about boundary
+checking. This was excellent insight as the queue is still functionally
+identical and I needn't worry about checking the boundaries of the array. 
 
 Much like challenge 2, I felt this to be a potent yet reasonable introduction
 to pointers as parameters and its applications. It was a simple enough case
