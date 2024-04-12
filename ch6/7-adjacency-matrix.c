@@ -9,11 +9,34 @@
 
 typedef bool matrix4x4_b[4][4];
 typedef struct queue queue;
+
+enum {
+    A = 0,
+    B = 1,
+    C = 2,
+    D = 3,
+};
+
 struct queue {
     size_t first;
     size_t length;
     size_t A[Q_SIZE];
 };
+
+char to_label(size_t index) {
+    switch (index) {
+        case 0:
+            return 'A';
+        case 1:
+            return 'B';
+        case 2:
+            return 'C';
+        case 3:
+            return 'D';
+        default:
+            return '-';
+    }
+}
 
 void print_queue(queue Q) {
     printf(
@@ -62,7 +85,7 @@ void print_matrix(char label[], size_t len, matrix4x4_b M) {
         }
         if(i < len) printf("\n");
     }
-    
+    puts(""); 
 }
 
 size_t breadth_first_search(size_t start, size_t key, size_t len, matrix4x4_b M) {
@@ -76,11 +99,11 @@ size_t breadth_first_search(size_t start, size_t key, size_t len, matrix4x4_b M)
     
     explored[start] = true;
     enqueue(start, &Q); 
-    print_queue(Q);
+    // print_queue(Q);
 
     while (!is_empty(Q)) {
         size_t value = dequeue(&Q);
-        printf("dequeued: %zu\n", value);
+        // printf("dequeued: %zu\n", value);
         if (value == key) return value;
         for (size_t i = 0; i < len; i++) {
             if (M[value][i] == 1 && !explored[i]) {
@@ -93,15 +116,72 @@ size_t breadth_first_search(size_t start, size_t key, size_t len, matrix4x4_b M)
     return SIZE_MAX;
 }
 
+void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
+    printf("adjacent verteces of %c: ", to_label(vertex));
+    for (size_t i = 0; i < len; i++) {
+        if (M[vertex][i]) printf("%c ", to_label(i));
+    }
+    puts("");
+}
+
 int main(void) {
-    matrix4x4_b A = {
-        {0, 1, 0, 0,},
-        {0, 0, 0, 1,},
-        {0, 0, 1, 0,},
-        {1, 0, 1, 0,},
+
+    // Complete bidirectional
+    matrix4x4_b G0 = {
+        {0, 1, 1, 1,},
+        {1, 0, 1, 1,},
+        {1, 1, 0, 1,},
+        {1, 1, 1, 0,},
     };
+    
+    // Unidirectional A adjacent to all other nodes
+    matrix4x4_b G1 = {
+        {0, 1, 1, 1,},
+        {0, 0, 0, 0,},
+        {0, 0, 0, 0,},
+        {0, 0, 0, 0,},
+    };
+    
+    // Only self cycles
+    matrix4x4_b G2 = {
+        {1, 0, 0, 0,},
+        {0, 1, 0, 0,},
+        {0, 0, 1, 0,},
+        {0, 0, 0, 1,},
+    };
+    print_matrix("G0: bidirection, complete, no self cycles", 4, G0);
 
+    print_adjacent_verteces(A, 4, G0);
+    print_adjacent_verteces(B, 4, G0);
+    print_adjacent_verteces(C, 4, G0);
+    print_adjacent_verteces(D, 4, G0);
+    puts("");    
 
-    print_matrix("adjacency matrix", 4, A);
-    printf("%zu", breadth_first_search(0, 3, 4, A));
+    print_matrix("G1: unidirection, tree, A root, no self cycles", 4, G1);
+
+    print_adjacent_verteces(A, 4, G1);
+    print_adjacent_verteces(B, 4, G1);
+    print_adjacent_verteces(C, 4, G1);
+    print_adjacent_verteces(D, 4, G1);
+    puts("");    
+
+    print_matrix("G2: self-cycles", 4, G2);
+
+    print_adjacent_verteces(A, 4, G2);
+    print_adjacent_verteces(B, 4, G2);
+    print_adjacent_verteces(C, 4, G2);
+    print_adjacent_verteces(D, 4, G2);
+    puts("");    
+
+    puts("bfs(root, search, graph)");
+    printf("bfs(A, D, G0): %c\n", to_label(breadth_first_search(A, D, 4, G0)));
+    printf("bfs(D, A, G0): %c\n", to_label(breadth_first_search(D, A, 4, G0)));
+    printf("bfs(A, A, G0): %c\n", to_label(breadth_first_search(A, A, 4, G0)));
+    printf("bfs(A, D, G1): %c\n", to_label(breadth_first_search(A, D, 4, G1)));
+    printf("bfs(D, A, G1): %c\n", to_label(breadth_first_search(D, A, 4, G1)));
+    printf("bfs(A, A, G1): %c\n", to_label(breadth_first_search(A, A, 4, G1)));
+    printf("bfs(A, D, G2): %c\n", to_label(breadth_first_search(A, D, 4, G2)));
+    printf("bfs(D, A, G2): %c\n", to_label(breadth_first_search(D, A, 4, G2)));
+    printf("bfs(A, A, G2): %c\n", to_label(breadth_first_search(A, A, 4, G2)));
+
 }
