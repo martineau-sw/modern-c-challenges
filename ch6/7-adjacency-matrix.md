@@ -35,6 +35,13 @@ structure for the array queue so I don't have to worry much about boundary
 checking. This was excellent insight as the queue is still functionally
 identical and I needn't worry about checking the boundaries of the array. 
 
+The standout constraint of an array based dynamic structure like a queue is the
+array is of fixed size which limits the size of the matrix that can be
+inputted. By exactly how much I am not sure, but it lies beyond the scope of
+the problem. The solution requires heap allocation to allow for dynamic array
+resizing which also lies beyond the scope of what I currently know. I will
+return with this solution once it has been made available by the text.  
+
 Much like challenge 2, I felt this to be a potent yet reasonable introduction
 to pointers as parameters and its applications. It was a simple enough case
 that the growing pains are reasonably justifiable for the end result.
