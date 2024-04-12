@@ -124,6 +124,19 @@ void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
     puts("");
 }
 
+bool has_spanning_tree(size_t start, size_t len, matrix4x4_b M) {
+    size_t sum = 0;
+    for (size_t j = 1; j < len; j++) {
+        size_t col_sum = 0;
+        for (size_t i = 0; i < len-1; i++) col_sum += M[i][j];
+        if (col_sum > 1) return false;
+        sum = col_sum;
+    }
+
+    if (sum > 1) return true;
+    return false;
+}
+
 int main(void) {
 
     // Complete bidirectional
