@@ -42,6 +42,22 @@ the problem. The solution requires heap allocation to allow for dynamic array
 resizing which also lies beyond the scope of what I currently know. I will
 return with this solution once it has been made available by the text.  
 
+As far as I understand, there are several ways to find or construct a spanning
+tree from a given graph. It was difficult to decide on an approach as I'm
+attempting to balance the semantics of the prompt *"Find a spanning tree"* as
+well as my own objectives in a self-paced exercise with reasonable velocity. I
+went with a solution that determines if a spanning tree exists satisfying that
+there are at least two adjacent verticies such that they don't form an
+undirected cycle.
+
+Playing around with the adjacency matrix on paper, I found that for a square
+adjacency matrix of side length N, one can sum the columnar elements above the
+diagonal (to disregard self cycles), and if the columnar sum is equal to one,
+then that vertex does not form a cyclical graph. A sum of zero implies an
+orphaned vertex. For columnar sum greater than one in graphs with verteces less than
+or equal to 4 we can stop the operation since a cycle of minimum length of three
+will cause the entire undirected graph to be cyclical disqualifying it.
+
 Much like challenge 2, I felt this to be a potent yet reasonable introduction
 to pointers as parameters and its applications. It was a simple enough case
 that the growing pains are reasonably justifiable for the end result.
