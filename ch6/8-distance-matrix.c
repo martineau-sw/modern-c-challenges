@@ -77,11 +77,12 @@ size_t dequeue(queue* Q) {
     return value;
 }
 
-void print_matrix(char label[], size_t len, matrix4x4_b M) {
+void print_matrix(char label[], size_t len, matrix4x4_s M) {
     printf("%s\n", label);
     for (int i = 0; i < len; i++) {
         for (int j = 0; j < len; j++) {
-            printf("%u", M[i][j]);
+            if (M[i][j] == SIZE_MAX) printf("-");
+            else printf("%zu", M[i][j]);
             if (j < len - 1) printf(", ");
         }
         if(i < len) printf("\n");
@@ -100,11 +101,11 @@ size_t breadth_first_search(size_t v, size_t key, size_t len, matrix4x4_b M) {
     
     explored[v] = true;
     enqueue(v, &Q); 
-    // print_queue(Q);
+    print_queue(Q);
 
     while (!is_empty(Q)) {
         size_t value = dequeue(&Q);
-        // printf("dequeued: %zu\n", value);
+        printf("dequeued: %zu\n", value);
         if (value == key) return value;
         for (size_t i = 0; i < len; i++) {
             if (M[value][i] == 1 && !explored[i]) {
@@ -112,6 +113,63 @@ size_t breadth_first_search(size_t v, size_t key, size_t len, matrix4x4_b M) {
                 enqueue(i, &Q);
             }
         }
+    }
+
+    return SIZE_MAX;
+}
+
+size_t get_min_index(size_t v, size_t len, matrix4x4_s M) {
+    size_t min_index = 0;
+    for (size_t i = 0; i < len; i++) 
+        min_index = M[v][i] < M[v][min_index] ? i : min_index; 
+    return min_index;
+}
+
+size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
+    queue Q = {
+        .A = { SIZE_MAX, },
+        .first = 0,
+        .length = 0,
+    };
+    
+    size_t explored[len];
+    for (size_t k = 0; k < len;) explored[k++] = SIZE_MAX;
+    explored[i] = 0;
+
+    size_t distance = 0;
+
+    enqueue(i, &Q); 
+
+    printf("dijkstra's algorithm path: ");
+    while (!is_empty(Q)) {
+        size_t val = dequeue(&Q);
+        //printf("dequeued: %c\n", to_label(val));
+        for (size_t k = 0; k < len; k++) {
+            if(explored[k] != SIZE_MAX || M[val][k] == SIZE_MAX) continue;
+            
+            enqueue(k, &Q);
+            //print_queue(Q);
+        }
+
+        if (explored[val] == 0) continue;
+        size_t min = 0;
+    
+        for (size_t k = 0; k < len; k++) {
+            if (M[val][k] < M[val][min]) {
+                if (explored[k] != SIZE_MAX) {
+                    min = k;
+                }
+            }
+        }
+
+        explored[val] = M[val][min] + explored[min];
+        distance += explored[min];
+        printf("%c:%zu->%c:%zu ", 
+                to_label(min), 
+                explored[min], 
+                to_label(val), 
+                explored[val]);
+        if (val == j) return distance;
     }
 
     return SIZE_MAX;
@@ -125,139 +183,42 @@ void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
     puts("");
 }
 
-signed get_rank_sum(size_t len, matrix4x4_b M) {
-    size_t sum = 0;
-    for (size_t j = 1; j < len; j++) {
-        size_t col_sum = 0;
-        for (size_t i = 0; i < j-1; i++) col_sum += M[i][j];
-        if (col_sum > 1) return -1;
-        sum += col_sum;
-    }
-    
-    return sum;
-}
-
-signed get_rank_degree(size_t v, size_t len, matrix4x4_b M) {
-    signed sum = 0;
-    for (size_t i = 0; i < v; i++) {
-        sum += M[i][v];
-    }
-    return sum;
-}
-
-void find_spanning_tree(size_t len, matrix4x4_b M) {
-    signed rank_sum = get_rank_sum(4, M);
-    printf("rank_sum: %d ", rank_sum);
-    if (rank_sum == -1) {
-        puts("graph has at least one cycle");
-        return;
-    }
-    else if(!rank_sum) { 
-        puts("graph has no unique adjacent verteces");
-        return;
-    }
-     
-
-    queue Q = {
-        .A = { SIZE_MAX, },
-        .first = 0,
-        .length = 0,
-    };
-    
-    bool explored[len];    
-
-    for (size_t i = 0; i < len; i++) {
-        signed degree = get_rank_degree(i, len, M);
-        if (degree > 0 && i == 0) explored[i] = true;
-        else if (degree == 0 && i != 0) explored[i] = true;
-        else explored[i] = false;
-    }
-
-    for (size_t i = 0; i < len; i++) {
-        if (!explored[i]) {
-            enqueue(i, &Q);
-            break;
-        }
-    }
-
-    printf("verteces of spanning tree: ");
-
-    while (!is_empty(Q)) {
-        dequeue(&Q);
-        for (size_t i = 0; i < len; i++) {
-            if (!explored[i]) {
-                printf("%c ", to_label(i));
-                explored[i] = true;
-                enqueue(i, &Q);
-            }
-        }
-    }
-
-    puts("");
-}
-
 int main(void) {
 
     // Complete bidirectional
-    matrix4x4_b G0 = {
-        {0, 1, 1, 1,},
-        {1, 0, 1, 1,},
-        {1, 1, 0, 1,},
-        {1, 1, 1, 0,},
+    matrix4x4_s G0 = {
+        {-1, 2, 3, 2,},
+        {2, -1, 4, 7,},
+        {3, 4, -1, 5,},
+        {2, 5, 5, -1,},
     };
     
     // Unidirectional A adjacent to all other nodes
-    matrix4x4_b G1 = {
-        {0, 1, 1, 1,},
-        {0, 0, 0, 0,},
-        {0, 0, 0, 0,},
-        {0, 0, 0, 0,},
+    matrix4x4_s G1 = {
+        {-1, 2, 4, 3,},
+        {-1, -1, -1, -1,},
+        {-1, -1, -1, -1,},
+        {-1, -1, -1, -1,},
     };
     
     // Only self cycles
-    matrix4x4_b G2 = {
-        {1, 0, 0, 0,},
-        {0, 1, 0, 0,},
-        {0, 0, 1, 0,},
-        {0, 0, 0, 1,},
+    matrix4x4_s G2 = {
+        {1, -1, -1, -1,},
+        {-1, 1, -1, -1,},
+        {-1, -1, 1, -1,},
+        {-1, -1, -1, 1,},
+    };
+
+    matrix4x4_s G3 = {
+        { -1,  1, -1, -1 },
+        {  1, -1,  1, -1 },
+        { -1,  1, -1,  1 },
+        { -1, -1,  1, -1 },
+
     };
     print_matrix("G0: bidirection, complete, no self cycles", 4, G0);
-
-    print_adjacent_verteces(A, 4, G0);
-    print_adjacent_verteces(B, 4, G0);
-    print_adjacent_verteces(C, 4, G0);
-    print_adjacent_verteces(D, 4, G0);
-    puts("");    
-
     print_matrix("G1: unidirection, tree, A root, no self cycles", 4, G1);
-
-    print_adjacent_verteces(A, 4, G1);
-    print_adjacent_verteces(B, 4, G1);
-    print_adjacent_verteces(C, 4, G1);
-    print_adjacent_verteces(D, 4, G1);
-    puts("");    
-
     print_matrix("G2: self-cycles", 4, G2);
 
-    print_adjacent_verteces(A, 4, G2);
-    print_adjacent_verteces(B, 4, G2);
-    print_adjacent_verteces(C, 4, G2);
-    print_adjacent_verteces(D, 4, G2);
-    puts("");    
-
-    puts("bfs(root, search, graph)");
-    printf("bfs(A, D, G0): %c\n", to_label(breadth_first_search(A, D, 4, G0)));
-    printf("bfs(D, A, G0): %c\n", to_label(breadth_first_search(D, A, 4, G0)));
-    printf("bfs(A, A, G0): %c\n", to_label(breadth_first_search(A, A, 4, G0)));
-    printf("bfs(A, D, G1): %c\n", to_label(breadth_first_search(A, D, 4, G1)));
-    printf("bfs(D, A, G1): %c\n", to_label(breadth_first_search(D, A, 4, G1)));
-    printf("bfs(A, A, G1): %c\n", to_label(breadth_first_search(A, A, 4, G1)));
-    printf("bfs(A, D, G2): %c\n", to_label(breadth_first_search(A, D, 4, G2)));
-    printf("bfs(D, A, G2): %c\n", to_label(breadth_first_search(D, A, 4, G2)));
-    printf("bfs(A, A, G2): %c\n", to_label(breadth_first_search(A, A, 4, G2)));
-    
-    puts("");
-    printf("spanning_tree(G0): "); find_spanning_tree(4, G0);
-    printf("spanning_tree(G1): "); find_spanning_tree(4, G1);
-    printf("spanning_tree(G2): "); find_spanning_tree(4, G2);
+    printf("%zu", dijkstras(A, D, 4, G3));
 }
