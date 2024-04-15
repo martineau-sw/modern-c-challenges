@@ -90,34 +90,6 @@ void print_matrix(char label[], size_t len, matrix4x4_s M) {
     puts(""); 
 }
 
-size_t breadth_first_search(size_t v, size_t key, size_t len, matrix4x4_b M) {
-    queue Q = {
-        .A = { SIZE_MAX, },
-        .first = 0,
-        .length = 0,
-    };
-    
-    bool explored[len];
-    
-    explored[v] = true;
-    enqueue(v, &Q); 
-    print_queue(Q);
-
-    while (!is_empty(Q)) {
-        size_t value = dequeue(&Q);
-        printf("dequeued: %zu\n", value);
-        if (value == key) return value;
-        for (size_t i = 0; i < len; i++) {
-            if (M[value][i] == 1 && !explored[i]) {
-                explored[i] = true;
-                enqueue(i, &Q);
-            }
-        }
-    }
-
-    return SIZE_MAX;
-}
-
 size_t get_min_index(size_t v, size_t len, matrix4x4_s M) {
     size_t min_index = 0;
     for (size_t i = 0; i < len; i++) 
@@ -126,53 +98,42 @@ size_t get_min_index(size_t v, size_t len, matrix4x4_s M) {
 }
 
 size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
+    if (i == j) return 0;
     queue Q = {
         .A = { SIZE_MAX, },
         .first = 0,
         .length = 0,
     };
     
-    size_t explored[len];
-    for (size_t k = 0; k < len;) explored[k++] = SIZE_MAX;
-    explored[i] = 0;
-
-    size_t distance = 0;
-
-    enqueue(i, &Q); 
-
-    printf("dijkstra's algorithm path: ");
-    while (!is_empty(Q)) {
-        size_t val = dequeue(&Q);
-        //printf("dequeued: %c\n", to_label(val));
-        for (size_t k = 0; k < len; k++) {
-            if(explored[k] != SIZE_MAX || M[val][k] == SIZE_MAX) continue;
-            
-            enqueue(k, &Q);
-            //print_queue(Q);
-        }
-
-        if (explored[val] == 0) continue;
-        size_t min = 0;
-    
-        for (size_t k = 0; k < len; k++) {
-            if (M[val][k] < M[val][min]) {
-                if (explored[k] != SIZE_MAX) {
-                    min = k;
-                }
-            }
-        }
-
-        explored[val] = M[val][min] + explored[min];
-        distance += explored[min];
-        printf("%c:%zu->%c:%zu ", 
-                to_label(min), 
-                explored[min], 
-                to_label(val), 
-                explored[val]);
-        if (val == j) return distance;
+    // Initialize vertex values
+    size_t vertices[len];
+    for (size_t k = 0; k < len;) {
+        vertices[k++] = SIZE_MAX;
+        enqueue(k, &Q); 
     }
+    // Mark first vertex as visited
+    vertices[i] = 0;
 
-    return SIZE_MAX;
+    while (!is_empty(Q)) {
+
+        size_t val = dequeue(&Q);
+        
+        // Enqueue adjacent vertices
+        for (size_t k = 0; k < len; k++) {
+            if (M[val][k] == SIZE_MAX) continue;
+            if (vertices[val] > M[val][k] + vertices[k]) {
+                vertices[val] = M[val][k] + vertices[k];
+            } 
+        }
+    }
+    
+    printf("shortest distance vertices: ");
+    for (size_t k = 0; k < len; k++) {
+        
+        printf("%c:%zu ", to_label(k), vertices[k]);
+
+    }
+    return vertices[j];
 }
 
 void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
@@ -187,38 +148,42 @@ int main(void) {
 
     // Complete bidirectional
     matrix4x4_s G0 = {
-        {-1, 2, 3, 2,},
-        {2, -1, 4, 7,},
-        {3, 4, -1, 5,},
-        {2, 5, 5, -1,},
+        { -1,  2,  3,  2, },
+        {  2, -1,  4,  7, },
+        {  3,  4, -1,  5, },
+        {  2,  5,  5, -1, },
     };
     
     // Unidirectional A adjacent to all other nodes
     matrix4x4_s G1 = {
-        {-1, 2, 4, 3,},
-        {-1, -1, -1, -1,},
-        {-1, -1, -1, -1,},
-        {-1, -1, -1, -1,},
+        { -1,  2,  4,  3, },
+        {  2, -1, -1, -1, },
+        {  4, -1, -1, -1, },
+        {  3, -1, -1, -1, },
     };
     
     // Only self cycles
     matrix4x4_s G2 = {
-        {1, -1, -1, -1,},
-        {-1, 1, -1, -1,},
-        {-1, -1, 1, -1,},
-        {-1, -1, -1, 1,},
+        {  1, -1, -1, -1, },
+        { -1,  1, -1, -1, },
+        { -1, -1,  1, -1, },
+        { -1, -1, -1,  1, },
     };
 
     matrix4x4_s G3 = {
-        { -1,  1, -1, -1 },
-        {  1, -1,  1, -1 },
-        { -1,  1, -1,  1 },
-        { -1, -1,  1, -1 },
-
+        { -1,  1, -1,  7, },
+        {  1, -1,  2, -1, },
+        { -1,  2, -1,  3, },
+        {  7, -1,  3, -1, },
     };
+
     print_matrix("G0: bidirection, complete, no self cycles", 4, G0);
     print_matrix("G1: unidirection, tree, A root, no self cycles", 4, G1);
     print_matrix("G2: self-cycles", 4, G2);
+    print_matrix("G3: cycle, maximum edges is shortest distance", 4, G3);
 
-    printf("%zu", dijkstras(A, D, 4, G3));
+    printf("dijkstras(A to D, G0): %zu\n", dijkstras(A, D, 4, G0));
+    printf("dijkstras(A to D, G1): %zu\n", dijkstras(A, D, 4, G1));
+    printf("dijkstras(A to D, G2): %zu\n", dijkstras(A, D, 4, G2));
+    printf("dijkstras(A to D, G3): %zu\n", dijkstras(A, D, 4, G3));
 }
