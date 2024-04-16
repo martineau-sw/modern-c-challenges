@@ -19,9 +19,15 @@ The `explored` array can be rewritten as a `size_t` array initialized to
 necessary to find vertex values in the case that two edges arrive at the same
 vertex; for this, we can pass in the row of the vertex to get all adjacent
 vertices and use `explored` to determine if a vertex has a value to be
-considered for a minimum function. Finally, to output the intended path, we
-simply `print` the vertex that's selected as the minimum since that's when an
-edge is "finalized." 
+considered for a minimum function. 
+
+In this challenge, there a couple of pitfalls I fell into that could've been
+easily avoided had I read a little further into implementation details. First,
+all verticies should be enqueued before processing them, not during the loop.
+Also, updating the value of adjacent vertices after they've been assigned
+would've prevented greedy paths which minimized edges rather than distance.
+
 # Sources
 
 - Jens Gustedt, Modern C
+- [Dijkstra's Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)

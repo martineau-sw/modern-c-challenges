@@ -118,20 +118,14 @@ size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
 
         size_t val = dequeue(&Q);
         
-        // Enqueue adjacent vertices
+        // Find min and calculate or update vertex value 
         for (size_t k = 0; k < len; k++) {
             if (M[val][k] == SIZE_MAX) continue;
             if (vertices[val] > M[val][k] + vertices[k]) {
-                vertices[val] = M[val][k] + vertices[k];
+                if (vertices[k] == SIZE_MAX) vertices[val] = M[val][k]; 
+                else vertices[val] = M[val][k] + vertices[k];
             } 
         }
-    }
-    
-    printf("shortest distance vertices: ");
-    for (size_t k = 0; k < len; k++) {
-        
-        printf("%c:%zu ", to_label(k), vertices[k]);
-
     }
     return vertices[j];
 }
