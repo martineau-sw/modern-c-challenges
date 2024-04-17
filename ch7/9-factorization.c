@@ -5,6 +5,7 @@
 
 #define N_LEN 16
 
+
 bool is_prime(size_t n) {
     if (n == 2) return true;
     for (size_t i = 2; i < n; i++) {
@@ -12,6 +13,10 @@ bool is_prime(size_t n) {
     }
 
     return true;
+}
+
+void calculate_primes() {
+    for(size_t i = 0;
 }
 
 void decompose(size_t n) {
@@ -25,6 +30,13 @@ void decompose(size_t n) {
         }
     }
     puts("");
+}
+
+void decompose_optimal(size_t n) {
+    printf("%zu: ", n);
+    for (size_t factor = 2; factor <= lround(ceil(sqrt(n))); ++factor) {
+        if (!is_prime(factor)) continue
+    }
 }
 
 void decompose_values(size_t len, size_t N[]) {
