@@ -11,7 +11,8 @@
 This challenge is asking for a sieve, an algorithm that decomposes an integer to
 its integer prime factors. I'm going to take the simple approach for this one,
 Trial Division, since the maximum value to decompose is `SIZE_MAX` where factors
-to test goes up to `SIZE_MAX`. 
+to test goes up to `SIZE_MAX`. As a fair warning, this approach has severe
+performance shortcomings. 
 
 I wrote a `decompose` function for trial division and a function `is_prime` to
 determine if a given factor is suitable to try. The program breaks down at large

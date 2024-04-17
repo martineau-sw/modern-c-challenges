@@ -39,6 +39,7 @@ char to_label(size_t index) {
     }
 }
 
+/* Queue functions */
 void print_queue(queue Q) {
     printf(
         "queue\n"
@@ -98,6 +99,7 @@ size_t get_min_index(size_t v, size_t len, matrix4x4_s M) {
 }
 
 size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
+    /* Check if we're already at vertex */
     if (i == j) return 0;
     queue Q = {
         .A = { SIZE_MAX, },
@@ -105,24 +107,31 @@ size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
         .length = 0,
     };
     
-    // Initialize vertex values
+    /* Initialize vertex values to SIZE_MAX for unvisited vertices */
     size_t vertices[len];
     for (size_t k = 0; k < len;) {
         vertices[k++] = SIZE_MAX;
         enqueue(k, &Q); 
     }
-    // Mark first vertex as visited
+
+    /* Mark first vertex as visited */
     vertices[i] = 0;
 
     while (!is_empty(Q)) {
 
         size_t val = dequeue(&Q);
         
-        // Find min and calculate or update vertex value 
+        /* Find min and calculate or update vertex value */
         for (size_t k = 0; k < len; k++) {
             if (M[val][k] == SIZE_MAX) continue;
+
+            /* Check if vertex value is greater than current path */
             if (vertices[val] > M[val][k] + vertices[k]) {
+
+                /* Assign vertex value if one is not present */
                 if (vertices[k] == SIZE_MAX) vertices[val] = M[val][k]; 
+
+                /* Reassign vertex value to new minimum */
                 else vertices[val] = M[val][k] + vertices[k];
             } 
         }

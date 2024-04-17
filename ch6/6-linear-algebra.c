@@ -41,7 +41,6 @@ void print_matrix(char label[], size_t rows, size_t cols, double M[][cols]) {
         }
         if(i < rows) printf("\n");
     }
-    
 }
 
 void swap_rows(size_t i, size_t j, size_t len, double M[len][len+1]) {
@@ -52,8 +51,11 @@ void swap_rows(size_t i, size_t j, size_t len, double M[len][len+1]) {
     }
 }
 
+/* Don't really know what's going on here. Used a reference for implementation.
+ * */
 signed forward_elimination(size_t len, double M[len][len+1]) {
     for (size_t k = 0; k < len; k++) {
+
         size_t max_index = k;
         double max_value = M[max_index][k];
 
@@ -81,6 +83,8 @@ signed forward_elimination(size_t len, double M[len][len+1]) {
 
 }
 
+/* Don't really know what's going on here. Used a reference for implenentation.
+ * */
 void back_substitution(size_t len, double M[len][len+1], double result[len]) {
     for (signed i = len-1; i >= 0; i--) {
         result[i] = M[i][len];
@@ -94,6 +98,8 @@ void back_substitution(size_t len, double M[len][len+1], double result[len]) {
 
 }
 
+/* Don't really know what's going on here. Used a reference for implementation. 
+ * */
 void gaussian_elimination(size_t len, double M[len][len+1], double result[len]) {
     signed singular_flag = forward_elimination(len, M); 
 
@@ -110,29 +116,33 @@ void gaussian_elimination(size_t len, double M[len][len+1], double result[len]) 
     back_substitution(len, M, result);
 }
 
-// available in three dimensions since only one valid
-// solution for any two vectors, where none may not in
-// single dimension or infinitely many in 4 or more
+/* Available in three dimensions since there is only one valid solution for any 
+ * two vectors, where none may exist in two dimensions or infinitely many in 
+ * four or more
+ * */
 void cross(vector3 V0, vector3 V1, vector3 V) {
-    V[0] = V0[1]*V1[2] - V0[2]*V1[1];
-    V[1] = V0[2]*V1[0] - V0[0]*V1[2];
-    V[2] = V0[0]*V1[1] - V0[1]*V1[0];
+    /* Follows the following pattern 
+     *
+     * V[0] = V0[1]*V1[2] - V0[2]*V1[1];
+     * V[1] = V0[2]*V1[0] - V0[0]*V1[2];
+     * V[2] = V0[0]*V1[1] - V0[1]*V1[0];
+     *
+     * Not very readable, but it's fun
+    */
+    for (size_t i = 0; i < 3; ++i) 
+        V[i] = V0[(i+1)%3]*V1[(i+2)%3] - V0[(i+2)%3]*V1[(i+1)%3];
 }
 
 double dot(size_t vlen, double V0[], double V1[]) {
     double sum = 0; 
-    for (int i = 0; i < vlen; i++) {
-        sum += V0[i]*V1[i];
-    }
-
+    for (int i = 0; i < vlen; ++i) sum += V0[i]*V1[i];
     return sum;
 }
 
-void matrix_vector_product(size_t rows, size_t cols, double M[rows][cols], size_t vrows, double V0[vrows], double V[rows]) {
-    assert(cols == vrows);
+void matrix_vector_product(size_t r, size_t c, double M[r][c], double V0[], double V[r]) {
     size_t row = 0;
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+    for (size_t i = 0; i < r; ++i) {
+        for (size_t j = 0; j < c; ++j) {
             V[i] += M[i][j] * V0[j];
         }
     }
@@ -140,36 +150,6 @@ void matrix_vector_product(size_t rows, size_t cols, double M[rows][cols], size_
 }
 
 int main(void) {
-    /*
-    matrix33 M = {
-        [0][0] = 1, [0][1] = 1, [0][2] = 1,
-        [1][0] = 1, [1][1] = 1, [1][2] = 1,
-        [2][0] = 1, [2][1] = 1, [2][2] = 1,
-    };
-    
-    vector3 V = {
-        [0] = 1,
-        [1] = 1,
-        [2] = 1,
-    };
-
-    vector3 V0 = {
-        [0] = 2,
-        [1] = 2,
-        [2] = 2,
-    };
-    print_vector("vector", 3, V);
-    print_matrix("matrix", 3, 3, M);
-
-    vector3 result = { 0 };
-
-    matrix_vector_product(3, 3, M, 3, V, result);
-    print_vector("matrix-vector", 3, result);
-
-    cross(V, V0, result);
-    print_vector("cross", 3, result);
-    printf("dot result: %f\n", dot(3, V0, V));
-    */
     double M[3][4] = {
         { 3.0,  2.0, -4.0, 3.0, },
         { 2.0,  3.0,  3.0, 15.0,},

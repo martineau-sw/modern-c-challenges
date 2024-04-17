@@ -38,6 +38,7 @@ char to_label(size_t index) {
     }
 }
 
+/* Queue funtions */
 void print_queue(queue Q) {
     printf(
         "queue\n"
@@ -95,24 +96,31 @@ size_t breadth_first_search(size_t v, size_t key, size_t len, matrix4x4_b M) {
         .length = 0,
     };
     
+    /* Create array to mark explored vertices */
     bool explored[len];
-    
+
+    /* Mark start as explored and enqueue */
     explored[v] = true;
     enqueue(v, &Q); 
-    // print_queue(Q);
 
+    /* Process queue
+     *
+     * Check if current vertex matches the search key 
+     * 
+     * If not, enqueue adjacent vertices and mark current vertex as explored
+     * */
     while (!is_empty(Q)) {
-        size_t value = dequeue(&Q);
-        // printf("dequeued: %zu\n", value);
-        if (value == key) return value;
+        size_t vertex = dequeue(&Q);
+        if (vertex == key) return vertex;
         for (size_t i = 0; i < len; i++) {
-            if (M[value][i] == 1 && !explored[i]) {
+            if (M[vertex][i] == 1 && !explored[i]) {
                 explored[i] = true;
                 enqueue(i, &Q);
             }
         }
     }
-
+    
+    /* Search key doesn't have a path from starting vertex */
     return SIZE_MAX;
 }
 
@@ -124,6 +132,13 @@ void print_adjacent_vertices(size_t vertex, size_t len, matrix4x4_b M) {
     puts("");
 }
 
+/* Sum columns of matrix elements on right side of the diagonal excluding 
+ * diagonal values and below
+ *
+ * Used to determine the presence of cycles in undirected graph
+ *
+ * If columnar sum is greater than one then cycle is present 
+ * */
 signed get_rank_sum(size_t len, matrix4x4_b M) {
     size_t sum = 0;
     for (size_t j = 1; j < len; j++) {
@@ -144,6 +159,12 @@ signed get_rank_degree(size_t v, size_t len, matrix4x4_b M) {
     return sum;
 }
 
+/* Execute breadth first search on the condition that each vertex is visited 
+ * once within is a subgraph is visited once
+ *
+ * Finds a spanning tree with at least 2 vertices up to N vertices where N is
+ * the number of vertices in a graph
+ * */
 void find_spanning_tree(size_t len, matrix4x4_b M) {
     signed rank_sum = get_rank_sum(4, M);
     printf("rank_sum: %d ", rank_sum);
@@ -164,14 +185,17 @@ void find_spanning_tree(size_t len, matrix4x4_b M) {
     };
     
     bool explored[len];    
-
+    
+    /* Mark isolated verticies as explored */
     for (size_t i = 0; i < len; i++) {
         signed degree = get_rank_degree(i, len, M);
         if (degree > 0 && i == 0) explored[i] = true;
         else if (degree == 0 && i != 0) explored[i] = true;
         else explored[i] = false;
     }
+    
 
+    /* Find a starting point that's adjacent to a vertex */
     for (size_t i = 0; i < len; i++) {
         if (!explored[i]) {
             enqueue(i, &Q);
@@ -180,7 +204,8 @@ void find_spanning_tree(size_t len, matrix4x4_b M) {
     }
 
     printf("vertices of spanning tree: ");
-
+    
+    /* Perform breadth-first search to construct spanning tree */
     while (!is_empty(Q)) {
         dequeue(&Q);
         for (size_t i = 0; i < len; i++) {
@@ -192,7 +217,7 @@ void find_spanning_tree(size_t len, matrix4x4_b M) {
         }
     }
 
-    puts("");
+    putchar('\n');
 }
 
 int main(void) {

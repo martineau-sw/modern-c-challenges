@@ -3,24 +3,13 @@
 #include <limits.h>
 #include <math.h>
 /*
- * solution is based on John Zelle's python 
- * implementation found at the link below
+ * Solution is based on John Zelle's python implementation of Leibniz's Pi
+ * approximation. 
  *
- * avoided using continued declartions found in
- * the python implementation in accordance to 
- * this section of Gustedt's Modern C p. 24
- *
- * additionally, continued assignments take on 
- * the following sequential form because it appears 
- * variable references used in a continued 
- * assignment use the value before the continued 
- * assignment began instead of its most recent 
- * assignment within the same line 
- *
- * (https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/)
- *
- */
+ * I'll be honest, I have no idea how or why this works.
+*/
 void leibniz_seq(size_t length, size_t digits[length]) {
+
     long double q = 1;
     long double r = 0;
     long double t = 1;
@@ -29,6 +18,7 @@ void leibniz_seq(size_t length, size_t digits[length]) {
     long double l = 3;
     
     for(size_t i = 0; i < length;) {
+
         long double _q = q;
         long double _r = r;
         long double _t = t;
@@ -57,43 +47,38 @@ void leibniz_seq(size_t length, size_t digits[length]) {
 }
 
 void print_digits(size_t length, size_t digits[length]) {
-    for(size_t i = 0; i < length; i++) 
-        i == 1 ? printf(".%zu", digits[i]) : printf("%zu", digits[i]);
+
+    for(size_t i = 0; i < length; i++) {
+        if(i == 1) printf(".%zu", digits[i]); 
+        else printf("%zu", digits[i]);
+    }
+
 }
-/*
- * pointers and this main signature
- * have not been covered yet, and 
- * has been implemented using external
- * resources without taking account 
- * safety and context due to ignorance
- *
- * will revise once able
- *
- */
+
 int main(int argc, char const* argv[]) {
 
-    if(argc < 2 || argc > 2) {
-        printf("specify n digits");
-        return 1;
+    if(argc != 2) {
+        printf("./pi <integer:[1, 45]>");
+        return EXIT_FAILURE;
     }
 
     char* str;
     unsigned long conv = strtoul(argv[1], &str, 10);
-    size_t length = conv;
+    size_t precision = conv;
 
-    if(length < 1 || length > 46) {
-        printf("length exceeds precision");
-        return 1; 
+    if(precision < 1 || precision > 46) {
+        printf("./pi <integer:[1, 45]>");
+        return EXIT_FAILURE; 
     }
 
     if(*str != '\0') {
-        printf("invalid argument");
-        return -1;
+        printf("./pi <integer:[1, 45]>");
+        return EXIT_FAILURE;
     }
 
-    size_t digits[length];
-    leibniz_seq(length, digits);
-    print_digits(length, digits);
+    size_t digits[precision];
+    leibniz_seq(precision, digits);
+    print_digits(precision, digits);
     
     return 0;
 }
