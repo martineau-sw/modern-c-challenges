@@ -130,8 +130,8 @@ size_t dijkstras(size_t i, size_t j, size_t len, matrix4x4_s M) {
     return vertices[j];
 }
 
-void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
-    printf("adjacent verteces of %c: ", to_label(vertex));
+void print_adjacent_vertices(size_t vertex, size_t len, matrix4x4_b M) {
+    printf("adjacent vertices of %c: ", to_label(vertex));
     for (size_t i = 0; i < len; i++) {
         if (M[vertex][i]) printf("%c ", to_label(i));
     }

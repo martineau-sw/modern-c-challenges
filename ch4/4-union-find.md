@@ -34,6 +34,4 @@ I've settled on implementing the latter, but for the `Union` function, I simply
 made it such that the root of the second tree is made to be that of the first
 which, according to my research and bias, is in the spirit of a union operation.
 
-# Sources
-
-- [^1]: Jens Gustedt, Modern C
+[^1]: Jens Gustedt, Modern C

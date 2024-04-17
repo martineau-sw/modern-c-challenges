@@ -112,7 +112,5 @@ go about doing it is having a compare function parameter for each of the types, 
 with that generalization, providing a size for generic void pointers. But all of
 this is for another day. 
 
-# Sources
-
 [^1]: Jens Gustedt, Modern C
 [^2]: [SIGTRAP, Apple](https://developer.apple.com/documentation/xcode/sigtrap_sigill)

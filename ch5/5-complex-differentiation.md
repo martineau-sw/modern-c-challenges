@@ -12,6 +12,4 @@ for a complex derivative differs in that the set of inputs (and thus set of
 outputs) lies in the complex plain. I suppose I could look into checking if a
 function is *differentiable* but have to keep the momentum.
 
-# Sources
-
-- [^1]: Jens Gustedt, Modern C
+[^1]: Jens Gustedt, Modern C

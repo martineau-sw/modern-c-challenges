@@ -1,6 +1,6 @@
 # Challenge 9: Factorization
 
-### Specification
+### Specification[^1]
 
 - For a given value of type `size_t` output a list of the prime factors in the
   form `N0: F0 F1 F2 ...` 
@@ -18,6 +18,4 @@ determine if a given factor is suitable to try. The program breaks down at large
 values, like `SIZE_MAX`. I have yet to test if the program simply hangs after a
 limit or if it takes an inordinate amount of time.
 
-# Sources
-
-- Jens Gustedt, Modern C
+[^1]: Jens Gustedt, Modern C

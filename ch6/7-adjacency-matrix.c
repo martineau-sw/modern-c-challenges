@@ -116,8 +116,8 @@ size_t breadth_first_search(size_t v, size_t key, size_t len, matrix4x4_b M) {
     return SIZE_MAX;
 }
 
-void print_adjacent_verteces(size_t vertex, size_t len, matrix4x4_b M) {
-    printf("adjacent verteces of %c: ", to_label(vertex));
+void print_adjacent_vertices(size_t vertex, size_t len, matrix4x4_b M) {
+    printf("adjacent vertices of %c: ", to_label(vertex));
     for (size_t i = 0; i < len; i++) {
         if (M[vertex][i]) printf("%c ", to_label(i));
     }
@@ -152,7 +152,7 @@ void find_spanning_tree(size_t len, matrix4x4_b M) {
         return;
     }
     else if(!rank_sum) { 
-        puts("graph has no unique adjacent verteces");
+        puts("graph has no unique adjacent vertices");
         return;
     }
      
@@ -179,7 +179,7 @@ void find_spanning_tree(size_t len, matrix4x4_b M) {
         }
     }
 
-    printf("verteces of spanning tree: ");
+    printf("vertices of spanning tree: ");
 
     while (!is_empty(Q)) {
         dequeue(&Q);
@@ -222,26 +222,26 @@ int main(void) {
     };
     print_matrix("G0: bidirection, complete, no self cycles", 4, G0);
 
-    print_adjacent_verteces(A, 4, G0);
-    print_adjacent_verteces(B, 4, G0);
-    print_adjacent_verteces(C, 4, G0);
-    print_adjacent_verteces(D, 4, G0);
+    print_adjacent_vertices(A, 4, G0);
+    print_adjacent_vertices(B, 4, G0);
+    print_adjacent_vertices(C, 4, G0);
+    print_adjacent_vertices(D, 4, G0);
     puts("");    
 
     print_matrix("G1: unidirection, tree, A root, no self cycles", 4, G1);
 
-    print_adjacent_verteces(A, 4, G1);
-    print_adjacent_verteces(B, 4, G1);
-    print_adjacent_verteces(C, 4, G1);
-    print_adjacent_verteces(D, 4, G1);
+    print_adjacent_vertices(A, 4, G1);
+    print_adjacent_vertices(B, 4, G1);
+    print_adjacent_vertices(C, 4, G1);
+    print_adjacent_vertices(D, 4, G1);
     puts("");    
 
     print_matrix("G2: self-cycles", 4, G2);
 
-    print_adjacent_verteces(A, 4, G2);
-    print_adjacent_verteces(B, 4, G2);
-    print_adjacent_verteces(C, 4, G2);
-    print_adjacent_verteces(D, 4, G2);
+    print_adjacent_vertices(A, 4, G2);
+    print_adjacent_vertices(B, 4, G2);
+    print_adjacent_vertices(C, 4, G2);
+    print_adjacent_vertices(D, 4, G2);
     puts("");    
 
     puts("bfs(root, search, graph)");

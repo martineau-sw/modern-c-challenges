@@ -4,12 +4,10 @@
 
 - Adjacency matrix of an unweighted graph
 - Breadth-First Search algorithm
-- Find connected verticies
+- Find connected vertices
 - Find a spanning tree
 
 ### Reflection
-
-##### First Impressions
 
 The standout lesson from all of these challenges is that I desperately need to
 brush up on my math. Thankfully, plenty of resources are available to hone in
@@ -47,14 +45,14 @@ tree from a given graph. It was difficult to decide on an approach as I'm
 attempting to balance the semantics of the prompt *"Find a spanning tree"* as
 well as my own objectives in a self-paced exercise with reasonable velocity. I
 went with a solution that determines if a spanning tree exists satisfying that
-there are at least two adjacent verticies such that they don't form an
+there are at least two adjacent vertices such that they don't form an
 undirected cycle.
 
 Playing around with the adjacency matrix on paper, I found that for a square
 adjacency matrix of side length N, one can sum the columnar elements above the
 diagonal (to disregard self cycles), and if the columnar sum is equal to one,
 then that vertex does not form a cyclical graph. A sum of zero implies an
-orphaned vertex. For columnar sum greater than one in graphs with verteces less than
+orphaned vertex. For columnar sum greater than one in graphs with vertices less than
 or equal to 4 we can stop the operation since a cycle of minimum length of three
 will cause the entire undirected graph to be cyclical disqualifying it.
 
@@ -62,7 +60,6 @@ Much like challenge 2, I felt this to be a potent yet reasonable introduction
 to pointers as parameters and its applications. It was a simple enough case
 that the growing pains are reasonably justifiable for the end result.
 
-# Sources
-- [^1]: Modern C, Jens Gustedt
-- [^2]: [BFS algorithm (trees)](https://en.wikipedia.org/wiki/Breadth-first_search)
-- [^3]: [BFS on graphs](https://web.archive.org/web/20150326055019/http://www.graph500.org/specifications#sec-6)
+[^1]: Modern C, Jens Gustedt
+[^2]: [BFS algorithm (trees)](https://en.wikipedia.org/wiki/Breadth-first_search)
+[^3]: [BFS on graphs](https://web.archive.org/web/20150326055019/http://www.graph500.org/specifications#sec-6)

@@ -17,14 +17,10 @@ material is not sufficient to close it. This led to seeking out an existing
 Gaussian elimination implementation[^2] instead of trying to build a bridge from 
 the raw mathematics myself.
 
-##### 10 April 2024
-
 I decided to stop at Gaussian elimination leaving matrix inversion incomplete 
 for the sake of keeping momentum. I will return to this challenge at some point 
 in the near future as I have for prior challenges.
 
-# Sources
-
-- [^1]: Jens Gustedt, Modern C
-- [^2]: [Gaussian Elimination](https://www.geeksforgeeks.org/gaussian-elimination) 
+[^1]: Jens Gustedt, Modern C
+[^2]: [Gaussian Elimination](https://www.geeksforgeeks.org/gaussian-elimination) 
   

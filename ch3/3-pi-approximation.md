@@ -28,9 +28,7 @@ I can only compute 46 terms before floating point precision becomes an issue,
 which I must say is awful efficiency-- but hey, Leibniz (and John Zelle)
 answered this one for me (and John Zelle) so I (we) owe him one.
 
-# Sources 
-
-- [^1]: Jens Gustedt, Modern C
-- [^2]: [Spigot Algorithms for pi](https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/) 
-- [^3]: [BBP Formula](https://en.wikipedia.org/wiki/Bailey-Borwein-Plouffe_formula) 
+[^1]: Jens Gustedt, Modern C
+[^2]: [Spigot Algorithms for pi](https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/) 
+[^3]: [BBP Formula](https://en.wikipedia.org/wiki/Bailey-Borwein-Plouffe_formula) 
 
