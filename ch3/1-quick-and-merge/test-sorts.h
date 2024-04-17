@@ -3,8 +3,8 @@
 
 #include <stddef.h>
 
-int test_merge_sort_doubles(size_t length);
-int test_merge_sort_strings(size_t length, size_t str_length);
-int test_quick_sort_doubles(size_t length);
-int test_quick_sort_strings(size_t length, size_t str_length);
+int test_merge_sort_doubles(size_t len);
+int test_merge_sort_strings(size_t len, size_t strlen);
+int test_quick_sort_doubles(size_t len);
+int test_quick_sort_strings(size_t len, size_t strlen);
 #endif

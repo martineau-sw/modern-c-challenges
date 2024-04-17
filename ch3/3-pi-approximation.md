@@ -1,6 +1,6 @@
-# Challenge 3
+# Challenge 3: Pi Approximation
 
-### Specifications
+### Specifications[^1]
 
 - Compute the N first decimal places of pi
 
@@ -17,19 +17,20 @@ much or too little computation? Not to mention, how do I truncate a
 transcendental number to N digits that's a sum total of however many floating
 point terms it takes to get to the point? All of these I'm underqualified to
 answer. Thankfully, John Zelle answered all of these questions with Leibniz
-approximation via [Python][1]. 
+approximation via Python[^2]. 
 
 Prior to arriving at that solution, I was down a rabbit hole of spigot
 algorithms for pi, one of which seemed to fit the bill nicely known as
-[Bailey-Borwein-Plouffe formula (BBP)][2] which can effectively extract sections
+Bailey-Borwein-Plouffe formula (BBP)[^3] which can effectively extract sections
 of pi without calculating previous terms. It's effectively O(N) complexity, the
 catch is that the digits are base-16. Bummer. But compare that to Leibniz, where
 I can only compute 46 terms before floating point precision becomes an issue,
 which I must say is awful efficiency-- but hey, Leibniz (and John Zelle)
 answered this one for me (and John Zelle) so I (we) owe him one.
 
-# Sources  [1]:
-<https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/> Spigot
-algorithms for pi [2]:
-<https://en.wikipedia.org/wiki/Bailey-Borwein-Plouffe_formula> BBP Formula
+# Sources 
+
+- [^1]: Jens Gustedt, Modern C
+- [^2]: [Spigot Algorithms for pi](https://www.gavalas.dev/blog/spigot-algorithms-for-pi-in-python/) 
+- [^3]: [BBP Formula](https://en.wikipedia.org/wiki/Bailey-Borwein-Plouffe_formula) 
 

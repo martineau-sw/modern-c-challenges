@@ -1,6 +1,6 @@
-# Challenge 5 
+# Challenge 5: Complex Differentiation
 
-### Specifications
+### Specifications[^1]
 
 - Extend the derivate (challenge 2) to the complex domain
 
@@ -12,4 +12,6 @@ for a complex derivative differs in that the set of inputs (and thus set of
 outputs) lies in the complex plain. I suppose I could look into checking if a
 function is *differentiable* but have to keep the momentum.
 
+# Sources
 
+- [^1]: Jens Gustedt, Modern C

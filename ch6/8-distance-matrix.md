@@ -1,6 +1,6 @@
 # Challenge 8: Distance Matrix
 
-### Specifications
+### Specifications[^1]
 
 - Construct a distance matrix where `SIZE_MAX` represents unreachable vertices
 - Find the shortest path between two vertices
@@ -10,7 +10,7 @@
 This challenge is an extension from the previous one. To kick it off, I copied
 the source from the previous one since the functions will be useful here.
 The plan is to define a new matrix type based on `size_t` values and implement
-Dijkstra's algorithm since breadth-first search is quite similar.
+Dijkstra's algorithm[^2] since breadth-first search is quite similar.
 
 In order to adapt the breadth-first search to Dijkstra's we need a way of
 assigning values to the verticies, to get a minimum value, and output the path.
@@ -29,5 +29,5 @@ would've prevented greedy paths which minimized edges rather than distance.
 
 # Sources
 
-- Jens Gustedt, Modern C
-- [Dijkstra's Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
+- [^1]: Jens Gustedt, Modern C
+- [^2]: [Dijkstra's Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)

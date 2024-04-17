@@ -1,6 +1,6 @@
 # Challenge 7: Adjacency Matrix
 
-### Specifications
+### Specifications[^1]
 
 - Adjacency matrix of an unweighted graph
 - Breadth-First Search algorithm
@@ -18,7 +18,7 @@ of the picture. There is a level of intuition that can be utilized in all of
 these problems but they're designed in such a way where intuition falls short
 for me. Hats off to you, Gustedt. Now I *have* to learn something.
 
-I did some research on breadth-first search (BFS) once the adjacency matrix of
+I did some research on breadth-first search (BFS)[^2][^3] once the adjacency matrix of
 an unweighted graph had been implemented. BFS has much in common with
 depth-first search (DFS), the key difference being BFS enqueues next targets
 whereas DFS stacks them. With what I know currently, and some things I don't, I
@@ -28,7 +28,7 @@ contains its elements. From there, I introduced queue functions. Knowing that
 `struct`s are passed by value unlike arrays, I decided to utilize parameterized
 pointers, despite not covering their use in the text yet.
 
-After translating the pseudocode from wikipedia, I asked a friend to check my
+After translating the pseudocode from wikipedia[^2], I asked a friend to check my
 work thus far to ensure I'm not making any catastrophic mistakes. This they did
 no problem, additionally, they also advised that I instead use a circular
 structure for the array queue so I don't have to worry much about boundary
@@ -63,7 +63,6 @@ to pointers as parameters and its applications. It was a simple enough case
 that the growing pains are reasonably justifiable for the end result.
 
 # Sources
-- Modern C, Jens Gustedt
-- [BFS algorithm (trees)](https://en.wikipedia.org/wiki/Breadth-first_search)
-- [BFS on
-  graphs](https://web.archive.org/web/20150326055019/http://www.graph500.org/specifications#sec-6)
+- [^1]: Modern C, Jens Gustedt
+- [^2]: [BFS algorithm (trees)](https://en.wikipedia.org/wiki/Breadth-first_search)
+- [^3]: [BFS on graphs](https://web.archive.org/web/20150326055019/http://www.graph500.org/specifications#sec-6)

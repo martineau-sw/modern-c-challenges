@@ -1,6 +1,6 @@
-# Challenge 2
+# Challenge 2: Differentiation
 
-### Specifications
+### Specifications[^1]
 
 - Implement numerical derivative `double f(double x)` of function `double
   F(double x)`
@@ -16,3 +16,7 @@ enough to implement without becoming too anxious about the granular details.
 With that being said, caution was to the wind with this one. I'm sure there are
 some checks that need to be preformed before going through with such an idea and
 I'll return once I'm not ignorant to them.
+
+# Sources 
+
+- [^1]: Jens Gustedt, Modern C

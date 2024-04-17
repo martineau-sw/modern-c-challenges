@@ -1,6 +1,6 @@
-# Challenge 4 
+# Challenge 4: Union-Find
 
-### Specifications
+### Specifications[^1]
 
 - `Find` function that for a given index finds the root of its tree
 - `FindReplace` Changes all `parent` entries on a path to the root (including)
@@ -33,3 +33,7 @@ still fundamentally alters the structure of the tree.
 I've settled on implementing the latter, but for the `Union` function, I simply
 made it such that the root of the second tree is made to be that of the first
 which, according to my research and bias, is in the spirit of a union operation.
+
+# Sources
+
+- [^1]: Jens Gustedt, Modern C
